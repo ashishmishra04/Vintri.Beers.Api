@@ -1,4 +1,12 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Web.Http;
+using Vintri.Beers.Model;
+using Vintri.Beers.Service;
 
 namespace Vintri.Beers.Api.Controllers
 {
@@ -7,5 +15,58 @@ namespace Vintri.Beers.Api.Controllers
     /// </summary>
     public class BeersController: ApiController
     {
+        /// <summary>
+        /// Local Private service instance
+        /// </summary>
+        private readonly IBeerService _service;
+
+        private readonly string _rootFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// Constructor For Beers Controller
+        /// </summary>
+        public BeersController(IMemoryCache memoryCache)
+        {
+            var databaseFullPath  = Path.Combine(_rootFolder, ConfigurationManager.AppSettings["databaseFilePath"]);
+            _service = new BeerService(ConfigurationManager.AppSettings["punkApiUrl"], databaseFullPath);
+        }
+
+        /// <summary>
+        /// Get beer by name
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> GetByName(string name)
+        {
+            var beer = await _service.Get(name);
+
+            if (beer == null)
+                return NotFound();
+
+            return Ok(beer);
+        }
+
+        /// <summary>
+        /// Get beer by Id
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> GetById(int id)
+        {
+            var beer = await _service.Get(id);
+
+            if (beer == null)
+                return NotFound();
+
+            return Ok(beer);
+        }
+
+        /// <summary>
+        /// Add UserRating to beer by Id
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> Post(int id, UserRating userRating)
+        {
+            var beer = await _service.AddUserRating(id, userRating);
+            return Ok(beer);
+        }
     }
 }
