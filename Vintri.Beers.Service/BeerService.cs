@@ -39,10 +39,9 @@ namespace Vintri.Beers.Service
             // Set the Cache Value to the local Storage Path
             var fileContents = File.ReadAllText(_storageLocationPath);
             _cache.Set(_cacheName, fileContents, policy);
-            var beerDatabaseContent = _cache[_cacheName] as string;
 
-            // Load the Local stored Bears 
-            if (beerDatabaseContent != null)
+            // Load the Local stored Beers 
+            if (_cache[_cacheName] is string beerDatabaseContent)
                 _beersWithRating = JsonConvert.DeserializeObject<List<BeerRating>>(beerDatabaseContent);
         }
 
@@ -105,7 +104,12 @@ namespace Vintri.Beers.Service
             var beer = await _punkApiService.Get(id);
             if (beer == null) return await Get(id);
 
-            // TODO: Validate UserRating
+            if(userRating == null)
+                throw new ArgumentNullException(nameof(userRating));
+
+            if (!string.IsNullOrEmpty(userRating.UserName) && !IsValidEmail(userRating.UserName))
+                throw new Exception($"Invalid username provided: {userRating.UserName}, valid email required");
+            
             var existingBeerRating = _beersWithRating.FirstOrDefault(beerItem => beerItem.Id == beer.Id);
             if (existingBeerRating == null)
             {
@@ -139,6 +143,25 @@ namespace Vintri.Beers.Service
             File.WriteAllText(_storageLocationPath, serializeBeers);
 
             return await Get(id);
+        }
+
+        bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

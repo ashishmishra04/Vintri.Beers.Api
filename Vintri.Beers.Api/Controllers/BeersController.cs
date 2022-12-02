@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Vintri.Beers.Model;
@@ -35,6 +33,7 @@ namespace Vintri.Beers.Api.Controllers
         /// Get beer by Id
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         [Route("GetById")]
         public async Task<IHttpActionResult> GetById(int id)
         {
@@ -50,6 +49,7 @@ namespace Vintri.Beers.Api.Controllers
         /// Get beer by name
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         [Route("GetByName")]
         public async Task<IHttpActionResult> GetByName(string name)
         {
@@ -65,17 +65,23 @@ namespace Vintri.Beers.Api.Controllers
         /// Add UserRating to beer by Id
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         [Route("AddUserRating")]
         public async Task<IHttpActionResult> Post(int id, UserRating userRating)
         {
+            if (!ModelState.IsValid) 
+                return BadRequest();
+            
             var beer = await _service.AddUserRating(id, userRating);
             return Ok(beer);
+
         }
 
         /// <summary>
         /// Get All beers with rating information
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         [Route("GetAllBeerWithRating")]
         public async Task<IHttpActionResult> GetAllBeerWithRating()
         {
