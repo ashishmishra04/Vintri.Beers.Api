@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vintri.Beers.Model;
+using Vintri.Beers.Model.Validation;
 
 namespace Vintri.Beers.Service
 {

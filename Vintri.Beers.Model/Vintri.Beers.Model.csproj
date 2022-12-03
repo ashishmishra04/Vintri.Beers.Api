@@ -47,14 +47,15 @@
     <Compile Include="BaseUserRatings.cs" />
     <Compile Include="Beer.cs" />
     <Compile Include="BeerRating.cs" />
-    <Compile Include="OperationResult.cs" />
+    <Compile Include="Validation\OperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRating.cs" />
-    <Compile Include="ValidationError.cs" />
-    <Compile Include="ValidationResult.cs" />
+    <Compile Include="Validation\ValidationError.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

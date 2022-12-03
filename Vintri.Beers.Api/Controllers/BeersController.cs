@@ -30,7 +30,7 @@ namespace Vintri.Beers.Api.Controllers
         }
 
         /// <summary>
-        /// Get beer by Id
+        /// Get beer by Id, the search is done against PunkApi for the id and user ratings is added if its added to the local database file
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -46,7 +46,7 @@ namespace Vintri.Beers.Api.Controllers
         }
 
         /// <summary>
-        /// Get beer by name
+        /// Get beer by name, the search is done against PunkApi for the name and user ratings is added if its added to the local database file
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -62,7 +62,7 @@ namespace Vintri.Beers.Api.Controllers
         }
 
         /// <summary>
-        /// Add UserRating to beer by Id
+        /// Add UserRating to beer by Id, the search for the beer is done against PunkApi and if data found then the rating is added to the local database with one comments per username
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -78,7 +78,7 @@ namespace Vintri.Beers.Api.Controllers
         }
 
         /// <summary>
-        /// Get All beers with rating information
+        /// Get All beers with rating information which is stored locally
         /// </summary>
         /// <returns></returns>
         [HttpGet]

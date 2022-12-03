@@ -17,28 +17,14 @@ namespace Vintri.Beers.Service
         private readonly string _punkApiUrl;
         private readonly HttpClient _httpClient;
 
+        /// <summary>
+        /// Constructor for PunkApiService
+        /// </summary>
+        /// <param name="punkApiUrl">Punk Api Url for Beer</param>
         public PunkApiService(string punkApiUrl)
         {
             _punkApiUrl = punkApiUrl;
             _httpClient = new HttpClient();
-        }
-
-        public async Task<Beer> Get(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentNullException(nameof(id));
-
-            var beerRequest = $"{_punkApiUrl}/{id}";
-            return await GetBeerFromPunkApi(beerRequest);
-        }
-
-        public async Task<Beer> Get(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
-
-            var beerRequest = $"{_punkApiUrl}?beer_name={name}";
-            return await GetBeerFromPunkApi(beerRequest);
         }
 
         private async Task<Beer> GetBeerFromPunkApi(string requestUrl)
@@ -59,6 +45,36 @@ namespace Vintri.Beers.Service
 
             var errorMessage = await response.Content.ReadAsStringAsync();
             throw new Exception($"Error While Running URL {requestUrl}: {errorMessage}");
+        }
+
+        /// <summary>
+        /// Get the data from Punk Api by Id
+        /// </summary>
+        /// <param name="id">id of the beer</param>
+        /// <returns>Beer data Object</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async Task<Beer> Get(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentNullException(nameof(id));
+
+            var beerRequest = $"{_punkApiUrl}/{id}";
+            return await GetBeerFromPunkApi(beerRequest);
+        }
+
+        /// <summary>
+        /// Get the Beer by name of the beer
+        /// </summary>
+        /// <param name="name">name of the beer</param>
+        /// <returns>Beer data Object</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async Task<Beer> Get(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            var beerRequest = $"{_punkApiUrl}?beer_name={name}";
+            return await GetBeerFromPunkApi(beerRequest);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Vintri.Beers.Model
+namespace Vintri.Beers.Model.Validation
 {
     public class OperationResult
     {

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Vintri.Beers.Model;
+using Vintri.Beers.Model.Validation;
 
 namespace Vintri.Beers.Service
 {
@@ -90,8 +91,7 @@ namespace Vintri.Beers.Service
         /// <summary>
         /// Get All beers with rating information
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <returns>List of beer</returns>
         public async Task<List<Beer>> GetAllBeerWithRating()
         {
             var beersBag = new ConcurrentBag<Beer>();

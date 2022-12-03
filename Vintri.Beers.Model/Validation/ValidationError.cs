@@ -1,4 +1,4 @@
-﻿namespace Vintri.Beers.Model
+﻿namespace Vintri.Beers.Model.Validation
 {
     public class ValidationError
     {

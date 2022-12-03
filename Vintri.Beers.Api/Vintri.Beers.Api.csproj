@@ -114,10 +114,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filters\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Vintri.Beers.Model\Vintri.Beers.Model.csproj">
       <Project>{3DD8E15C-A80C-4FBB-B77C-E032FD32FE36}</Project>
