@@ -21,3 +21,7 @@ Change the url to https://localhost:44315/swagger to open the swagger page
 
 Open the Test virtual folder to run the unit test project
 ![Alt text](ApiUnitTestImage.PNG?raw=true "Unit Test Api")
+
+# Logging File Location
+
+C:\Logs\VintriBeersApi.log
