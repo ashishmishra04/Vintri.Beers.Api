@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Api", "Vintri.Beers.Api\Vintri.Beers.Api.csproj", "{CE990864-6521-4948-A93F-472B9AAC3B4A}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Model", "Vintri.Beers.Model\Vintri.Beers.Model.csproj", "{3DD8E15C-A80C-4FBB-B77C-E032FD32FE36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Service", "Vintri.Beers.Service\Vintri.Beers.Service.csproj", "{9051D7C7-0AC5-4453-A396-258DC00FE26F}"
@@ -10,8 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BAFCBDAF-BE59-4B4F-AC66-1BD8DAE61BEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vintri.Beers.Api.NUnitTest", "Vintri.Beers.Api.NUnitTest\Vintri.Beers.Api.NUnitTest.csproj", "{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Api", "Vintri.Beers.Api\Vintri.Beers.Api.csproj", "{CE990864-6521-4948-A93F-472B9AAC3B4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
