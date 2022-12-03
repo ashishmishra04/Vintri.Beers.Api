@@ -22,7 +22,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase(50)]
         [TestCase(100)]
         [TestCase(200)]
-        public async Task TestBeerService_GetBeerById_Valid(int id)
+        public async Task GetBeerById_Valid(int id)
         {
             var result = await _beerService.Get(id);
             Assert.NotNull(result);
@@ -30,7 +30,7 @@ namespace Vintri.Beers.Api.NUnitTest
         }
 
         [Test]
-        public async Task TestBeerService_GetAllBeerWithRating_IsValid()
+        public async Task GetAllBeerWithRating_IsValid()
         {
             var result = await _beerService.GetAllBeerWithRating();
             Assert.NotNull(result);
@@ -38,7 +38,24 @@ namespace Vintri.Beers.Api.NUnitTest
         }
 
         [Test]
-        public async Task TestBeerService_AddUserRating_IsValid()
+        public async Task AddUserRating_IsValidBeerId()
+        {
+            var operationResult = await _beerService.AddUserRating(2300, new UserRating
+            {
+                UserName = "ashishmishra@gmail.com",
+                Rating = 4,
+                Comments = "Best Beer Ever in my life"
+            });
+            Assert.NotNull(operationResult);
+            Assert.False(operationResult.IsSuccess);
+            Assert.IsNull(operationResult.Data);
+            var errors = operationResult.ValidationResult.Errors.ToList();
+            Assert.IsTrue(errors.Count == 1);
+            Assert.AreEqual(errors.FirstOrDefault(error => error.Property == "id")?.Message, "Invalid beer Id provided 2300");
+        }
+
+        [Test]
+        public async Task AddUserRating_IsValid()
         {
             var operationResult = await _beerService.AddUserRating(50, new UserRating
             {
@@ -58,7 +75,7 @@ namespace Vintri.Beers.Api.NUnitTest
         }
 
         [Test]
-        public async Task TestBeerService_AddUserRating_InValidUserName()
+        public async Task AddUserRating_InValidUserName()
         {
             var operationResult = await _beerService.AddUserRating(50, new UserRating
             {
@@ -75,7 +92,7 @@ namespace Vintri.Beers.Api.NUnitTest
         }
 
         [Test]
-        public async Task TestBeerService_AddUserRating_InValidRating()
+        public async Task AddUserRating_InValidRating()
         {
             var operationResult = await _beerService.AddUserRating(50, new UserRating
             {
@@ -92,7 +109,7 @@ namespace Vintri.Beers.Api.NUnitTest
         }
 
         [Test]
-        public async Task TestBeerService_AddUserRating_InValidUserNameAndRating()
+        public async Task AddUserRating_InValidUserNameAndRating()
         {
             var operationResult = await _beerService.AddUserRating(50, new UserRating
             {
@@ -115,7 +132,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase(50645)]
         [TestCase(100645)]
         [TestCase(200645)]
-        public async Task TestBeerService_GetBeerById_InValid(int id)
+        public async Task GetBeerById_InValid(int id)
         {
             var result = await _beerService.Get(id);
             Assert.Null(result);
@@ -127,7 +144,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase("Hopped-Up Brown Ale - Prototype Challenge", 82)]
         [TestCase("Comet", 58)]
         [TestCase("Bowman's Beard - B-Sides", 97)]
-        public async Task TestBeerService_GetBeerByName_Valid(string name, int id)
+        public async Task GetBeerByName_Valid(string name, int id)
         {
             var result = await _beerService.Get(name);
             Assert.NotNull(result);
@@ -140,7 +157,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase("Hopped-Up Brown Ale - Prototype Challenge Dummy")]
         [TestCase("Comet Dummy")]
         [TestCase("Bowman's Beard - B-Sides Dummy")]
-        public async Task TestBeerService_GetBeerByName_InValid(string name)
+        public async Task GetBeerByName_InValid(string name)
         {
             var result = await _beerService.Get(name);
             Assert.Null(result);

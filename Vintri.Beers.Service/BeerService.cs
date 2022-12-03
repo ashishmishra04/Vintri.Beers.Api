@@ -144,7 +144,10 @@ namespace Vintri.Beers.Service
         public async Task<OperationResult<Beer>> AddUserRating(int id, UserRating userRating)
         {
             var beer = await _punkApiService.Get(id);
-            if (beer == null) return new OperationResult<Beer>(data: null, new ValidationResult());
+            if (beer == null) return new OperationResult<Beer>(data: null, 
+                new ValidationResult(
+                    new List<ValidationError>
+                        { new ValidationError($"Invalid beer Id provided {id}", nameof(id))}));
 
             //Validation for User Rating data Object
             var validationResult = ValidateUserRatingDataObject(userRating);

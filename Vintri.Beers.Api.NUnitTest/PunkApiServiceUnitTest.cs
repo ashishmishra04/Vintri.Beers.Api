@@ -17,7 +17,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase(50)]
         [TestCase(100)]
         [TestCase(200)]
-        public async Task TestPunkApi_GetBeerById_Valid(int id)
+        public async Task GetBeerById_Valid(int id)
         {
             var result = await _punkApiService.Get(id);
             Assert.NotNull(result);
@@ -30,7 +30,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase(50645)]
         [TestCase(100645)]
         [TestCase(200645)]
-        public async Task TestPunkApi_GetBeerById_InValid(int id)
+        public async Task GetBeerById_InValid(int id)
         {
             var result = await _punkApiService.Get(id);
             Assert.Null(result);
@@ -42,7 +42,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase("Hopped-Up Brown Ale - Prototype Challenge", 82)]
         [TestCase("Comet", 58)]
         [TestCase("Bowman's Beard - B-Sides", 97)]
-        public async Task TestPunkApi_GetBeerByName_Valid(string name, int id)
+        public async Task GetBeerByName_Valid(string name, int id)
         {
             var result = await _punkApiService.Get(name);
             Assert.NotNull(result);
@@ -55,7 +55,7 @@ namespace Vintri.Beers.Api.NUnitTest
         [TestCase("Hopped-Up Brown Ale - Prototype Challenge Dummy")]
         [TestCase("Comet Dummy")]
         [TestCase("Bowman's Beard - B-Sides Dummy")]
-        public async Task TestPunkApi_GetBeerByName_InValid(string name)
+        public async Task GetBeerByName_InValid(string name)
         {
             var result = await _punkApiService.Get(name);
             Assert.Null(result);
