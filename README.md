@@ -11,7 +11,9 @@ These are stored locally within the API, and users can quesry to get the rating 
 
 Open the Vintri.Beers.Api.sln with any Visual studio with dotnet framework 4.8 support.
 After build please compile and run with IISExpress with url as
-https://localhost:44316/swagger
+https://localhost:44315
+
+Change the url to https://localhost:44315/swagger to open the swagger page
 
 ![Alt text](ApiSwaggerImage.PNG?raw=true "Api Swagger")
 
