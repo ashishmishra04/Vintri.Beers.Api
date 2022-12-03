@@ -33,3 +33,5 @@ The source of any beer is still PunkApi, which users can query to get any beer b
 If user add any Rating then that information is stored in local database.json.
 User have an endpoint to query see all beer which have rating, which combines data from both PunkApi and local json file.
 The joining link between beer from PunkApi and local database.json, is the beer id.
+
+
