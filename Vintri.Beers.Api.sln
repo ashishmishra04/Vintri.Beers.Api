@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Model", "Vintr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Service", "Vintri.Beers.Service\Vintri.Beers.Service.csproj", "{9051D7C7-0AC5-4453-A396-258DC00FE26F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BAFCBDAF-BE59-4B4F-AC66-1BD8DAE61BEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vintri.Beers.Api.NUnitTest", "Vintri.Beers.Api.NUnitTest\Vintri.Beers.Api.NUnitTest.csproj", "{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{9051D7C7-0AC5-4453-A396-258DC00FE26F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9051D7C7-0AC5-4453-A396-258DC00FE26F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9051D7C7-0AC5-4453-A396-258DC00FE26F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{33D6E15D-DA61-4BA6-A9E0-191AFBBDC40C} = {BAFCBDAF-BE59-4B4F-AC66-1BD8DAE61BEA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {08BB8CD5-AEEE-43FE-AAB1-D1B795E7D131}

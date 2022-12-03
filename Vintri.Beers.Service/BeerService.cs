@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Vintri.Beers.Model;
@@ -43,6 +44,47 @@ namespace Vintri.Beers.Service
             // Load the Local stored Beers 
             if (_cache[_cacheName] is string beerDatabaseContent)
                 _beersWithRating = JsonConvert.DeserializeObject<List<BeerRating>>(beerDatabaseContent);
+        }
+
+        /// <summary>
+        /// Validate the User Rating Data Object
+        /// </summary>
+        /// <param name="userRating"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="Exception"></exception>
+        private ValidationResult ValidateUserRatingDataObject(UserRating userRating)
+        {
+            var validationResult = new ValidationResult();
+            if (userRating == null)
+            {
+                validationResult.AddError(new ValidationError("UserRating not Provided", nameof(userRating)));
+                return validationResult;
+            }
+
+            if (!IsValidRating(userRating.Rating))
+                validationResult.AddError(new ValidationError($"Invalid Rating provided: {userRating.Rating}, valid number is 1 to 5", nameof(userRating.Rating)));
+               
+
+            if (!string.IsNullOrEmpty(userRating.UserName) && !IsValidEmail(userRating.UserName))
+                validationResult.AddError(new ValidationError($"Invalid username provided: {userRating.UserName}, valid email required", nameof(userRating.UserName)));
+
+            return validationResult;
+        }
+
+        //Make sure its a valid email address
+        private bool IsValidEmail(string email)
+        {
+            var validateEmailRegex = new Regex("^\\S+@\\S+\\.\\S+$");
+
+            // More Accurate way would be to use 
+            // MailAddress m = new MailAddress(email); and handle try catch
+            return validateEmailRegex.IsMatch(email);
+        }
+
+        //Make sure the rating is between 1 to 5
+        private bool IsValidRating(int rating)
+        {
+            return rating > 0 && rating <= 5;
         }
 
         /// <summary>
@@ -99,17 +141,17 @@ namespace Vintri.Beers.Service
         /// <param name="id">Beer Id</param>
         /// <param name="userRating">UserRating Data Object</param>
         /// <returns></returns>
-        public async Task<Beer> AddUserRating(int id, UserRating userRating)
+        public async Task<OperationResult<Beer>> AddUserRating(int id, UserRating userRating)
         {
             var beer = await _punkApiService.Get(id);
-            if (beer == null) return await Get(id);
+            if (beer == null) return new OperationResult<Beer>(data: null, new ValidationResult());
 
-            if(userRating == null)
-                throw new ArgumentNullException(nameof(userRating));
+            //Validation for User Rating data Object
+            var validationResult = ValidateUserRatingDataObject(userRating);
 
-            if (!string.IsNullOrEmpty(userRating.UserName) && !IsValidEmail(userRating.UserName))
-                throw new Exception($"Invalid username provided: {userRating.UserName}, valid email required");
-            
+            if (!validationResult.IsValid)
+                return new OperationResult<Beer>(data: null, validationResult: validationResult);
+
             var existingBeerRating = _beersWithRating.FirstOrDefault(beerItem => beerItem.Id == beer.Id);
             if (existingBeerRating == null)
             {
@@ -142,26 +184,7 @@ namespace Vintri.Beers.Service
             var serializeBeers = JsonConvert.SerializeObject(_beersWithRating, Formatting.Indented);
             File.WriteAllText(_storageLocationPath, serializeBeers);
 
-            return await Get(id);
-        }
-
-        bool IsValidEmail(string email)
-        {
-            var trimmedEmail = email.Trim();
-
-            if (trimmedEmail.EndsWith("."))
-            {
-                return false;
-            }
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == trimmedEmail;
-            }
-            catch
-            {
-                return false;
-            }
+            return new OperationResult<Beer>(data: await Get(id), validationResult: new ValidationResult());
         }
     }
 }

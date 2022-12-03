@@ -72,8 +72,8 @@ namespace Vintri.Beers.Api.Controllers
             if (!ModelState.IsValid) 
                 return BadRequest();
             
-            var beer = await _service.AddUserRating(id, userRating);
-            return Ok(beer);
+            var operationResult = await _service.AddUserRating(id, userRating);
+            return Ok(operationResult);
 
         }
 

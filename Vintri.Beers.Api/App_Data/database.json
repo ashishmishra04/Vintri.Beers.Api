@@ -1,1 +1,42 @@
-﻿[]
+[
+  {
+    "id": 21,
+    "userRatings": [
+      {
+        "username": "test@info.com",
+        "rating": 3,
+        "comments": "string"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "userRatings": [
+      {
+        "username": "ashish.mishra@gmail.com",
+        "rating": 4,
+        "comments": "Test Comment"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "userRatings": [
+      {
+        "username": "ashish.mishra@gmail.com",
+        "rating": 3,
+        "comments": "Not the best beer"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "userRatings": [
+      {
+        "username": "test.account.mishra@gmail.com",
+        "rating": 4,
+        "comments": "test beer comment"
+      }
+    ]
+  }
+]
