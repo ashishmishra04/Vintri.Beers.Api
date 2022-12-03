@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using log4net;
+using Newtonsoft.Json;
 using Vintri.Beers.Model;
 using Vintri.Beers.Service;
 
@@ -20,6 +23,8 @@ namespace Vintri.Beers.Api.Controllers
 
         private readonly string _rootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
+        private readonly ILog _log;
+
         /// <summary>
         /// Constructor For Beers Controller
         /// </summary>
@@ -27,6 +32,7 @@ namespace Vintri.Beers.Api.Controllers
         {
             var databaseFullPath  = Path.Combine(_rootFolder, ConfigurationManager.AppSettings["databaseFilePath"]);
             _service = new BeerService(ConfigurationManager.AppSettings["punkApiUrl"], databaseFullPath);
+            _log = LogManager.GetLogger(typeof(BeersController));
         }
 
         /// <summary>
@@ -37,8 +43,10 @@ namespace Vintri.Beers.Api.Controllers
         [Route("GetById")]
         public async Task<IHttpActionResult> GetById(int id)
         {
-            var beer = await _service.Get(id);
 
+            _log.Info($"Calling GetById: {id}");
+
+            var beer = await _service.Get(id);
             if (beer == null)
                 return NotFound();
 
@@ -53,6 +61,8 @@ namespace Vintri.Beers.Api.Controllers
         [Route("GetByName")]
         public async Task<IHttpActionResult> GetByName(string name)
         {
+            _log.Info($"Calling GetByName: {name}");
+
             var beer = await _service.Get(name);
 
             if (beer == null)
@@ -69,6 +79,9 @@ namespace Vintri.Beers.Api.Controllers
         [Route("AddUserRating")]
         public async Task<IHttpActionResult> Post(int id, UserRating userRating)
         {
+
+            _log.Info($"Calling AddUserRating for Id: {id}, with UserRating :{JsonConvert.SerializeObject(userRating)}");
+
             if (!ModelState.IsValid) 
                 return BadRequest();
             
@@ -85,6 +98,8 @@ namespace Vintri.Beers.Api.Controllers
         [Route("GetAllBeerWithRating")]
         public async Task<IHttpActionResult> GetAllBeerWithRating()
         {
+            _log.Info("Calling GetAllBeerWithRating");
+
             var beers = await _service.GetAllBeerWithRating();
             return Ok(beers);
         }

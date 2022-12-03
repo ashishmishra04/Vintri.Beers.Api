@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using log4net;
 using Newtonsoft.Json;
 using Vintri.Beers.Model;
 
@@ -16,6 +17,7 @@ namespace Vintri.Beers.Service
     {
         private readonly string _punkApiUrl;
         private readonly HttpClient _httpClient;
+        private readonly ILog _log = LogManager.GetLogger(nameof(PunkApiService));
 
         /// <summary>
         /// Constructor for PunkApiService
@@ -29,8 +31,9 @@ namespace Vintri.Beers.Service
 
         private async Task<Beer> GetBeerFromPunkApi(string requestUrl)
         {
-            var response = await _httpClient.GetAsync(requestUrl);
+            _log.Debug($"Calling API Url: {requestUrl}");
 
+            var response = await _httpClient.GetAsync(requestUrl);
             if (response.IsSuccessStatusCode)
             {
                 var beerData = await response.Content.ReadAsStringAsync();
@@ -44,7 +47,9 @@ namespace Vintri.Beers.Service
                 return null;
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Error While Running URL {requestUrl}: {errorMessage}");
+            var message = $"Error While Running URL {requestUrl}: {errorMessage}";
+            _log.Error(message);
+            throw new Exception(message);
         }
 
         /// <summary>

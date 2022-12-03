@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using log4net;
 using Newtonsoft.Json;
 using Vintri.Beers.Model;
 using Vintri.Beers.Model.Validation;
@@ -19,6 +20,7 @@ namespace Vintri.Beers.Service
         readonly ObjectCache _cache = MemoryCache.Default;
         private readonly string _cacheName = "beerDatabase";
         private readonly List<BeerRating> _beersWithRating = new List<BeerRating>();
+        private readonly ILog _log = LogManager.GetLogger(nameof(PunkApiService));
 
         /// <summary>
         /// Constructor For Beer Service
@@ -158,6 +160,7 @@ namespace Vintri.Beers.Service
             var existingBeerRating = _beersWithRating.FirstOrDefault(beerItem => beerItem.Id == beer.Id);
             if (existingBeerRating == null)
             {
+                _log.Debug($"Adding Beer to local database for :{id}, with rating by UserName: {userRating.UserName}");
                 _beersWithRating.Add(new BeerRating
                 {
                     Id = id,
@@ -173,12 +176,14 @@ namespace Vintri.Beers.Service
                 // UPDATE USER RATING AND COMMENTS IF A RECORD ALREADY EXISTS
                 if (existingUserRating != null)
                 {
+                    _log.Debug($"Updating Beer User Rating for :{id}, for UserName: {userRating.UserName}");
                     existingUserRating.Comments = userRating.Comments;
                     existingUserRating.Rating = userRating.Rating;
                 }
                 //CREATE A NEW USER COMMENT
                 else
                 {
+                    _log.Debug($"Adding Beer User Rating for :{id}, for UserName: {userRating.UserName}");
                     existingBeerRating.UserRatings.Add(userRating);
                 }
             }
@@ -186,6 +191,8 @@ namespace Vintri.Beers.Service
             //SAVE THE FILE
             var serializeBeers = JsonConvert.SerializeObject(_beersWithRating, Formatting.Indented);
             File.WriteAllText(_storageLocationPath, serializeBeers);
+
+            _log.Info($"User Rating Added/Updated to Beer: {id}, with Data : {JsonConvert.SerializeObject(userRating)}");
 
             return new OperationResult<Beer>(data: await Get(id), validationResult: new ValidationResult());
         }
