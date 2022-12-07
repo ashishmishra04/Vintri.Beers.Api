@@ -38,5 +38,25 @@
         "comments": "test beer comment"
       }
     ]
+  },
+  {
+    "id": 45,
+    "userRatings": [
+      {
+        "username": "ashish.mishra@gmail.com",
+        "rating": 3,
+        "comments": "test comment"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "userRatings": [
+      {
+        "username": "ashish.mishra@gmail.com",
+        "rating": 2,
+        "comments": "test"
+      }
+    ]
   }
 ]

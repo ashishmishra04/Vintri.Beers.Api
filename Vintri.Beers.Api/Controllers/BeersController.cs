@@ -76,6 +76,7 @@ namespace Vintri.Beers.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [ValidUserFilter]
         [Route("AddUserRating")]
         public async Task<IHttpActionResult> Post(int id, UserRating userRating)
         {
